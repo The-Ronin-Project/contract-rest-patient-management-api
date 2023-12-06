@@ -1,17 +1,17 @@
 {
   "openapi": "3.0.2",
   "info": {
-    "title": "Swagger Petstore - OpenAPI 3.0",
-    "description": "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about\nSwagger at [http://swagger.io](http://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!\nYou can now help us improve the API whether it's by making changes to the definition itself or to the code.\nThat way, with time, we can improve the API in general, and expose some of the new features in OAS3.\n\nSome useful links:\n- [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)\n- [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)",
+    "title": "Patient Management Service REST API - OpenAPI 3.0",
+    "description": "REST API contract for the patient management service. \n\nSome useful links:\n- [Patient Management Service Repository](https://github.com/projectronin/prodeng-patient-management)",
     "termsOfService": "http://swagger.io/terms/",
     "contact": {
-      "email": "apiteam@swagger.io"
+      "email": "hannah@projectronin.com"
     },
     "license": {
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.17"
+    "version": "1.0.0"
   },
   "externalDocs": {
     "description": "Find out more about Swagger",
@@ -19,615 +19,190 @@
   },
   "servers": [
     {
-      "url": "/api/v3"
+      "url": "/api/v1"
     }
   ],
   "tags": [
     {
-      "name": "pet",
-      "description": "Everything about your Pets",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "http://swagger.io"
-      }
+      "name": "Patient",
+      "description": "Endpoints used by the patient apps"
     },
     {
-      "name": "store",
-      "description": "Access to Petstore orders",
-      "externalDocs": {
-        "description": "Find out more about our store",
-        "url": "http://swagger.io"
-      }
+      "name": "PRO",
+      "description": "Endpoints used to support specifically PRO enabled patients"
     },
     {
-      "name": "user",
-      "description": "Operations about user"
+      "name": "Legacy",
+      "description": "Endpoints used to support specifically legacy (non PRO) patients"
     }
   ],
   "paths": {
-    "/pet": {
-      "put": {
+    "/tenants/{tenantId}/patients/{patientId}": {
+      "get": {
         "tags": [
-          "pet"
+          "Patient"
         ],
-        "summary": "Update an existing pet",
-        "description": "Update an existing pet by Id",
-        "operationId": "updatePet",
-        "requestBody": {
-          "description": "Update an existent pet in the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            }
+        "summary": "Fetch Patient",
+        "description": "Fetch a patient by id",
+        "operationId": "fetchPatient",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the tenant for the patient",
+            "example": "ca41ec2f-621d-4b7d-93e6-38ec50854b5e"
           },
-          "required": true
-        },
+          {
+            "in": "path",
+            "name": "patientId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The UDP ID of the current patient",
+            "example": "ronin-PatientFHIRID10"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Pet not found"
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Add a new pet to the store",
-        "description": "Add a new pet to the store",
-        "operationId": "addPet",
-        "requestBody": {
-          "description": "Create a new pet in the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
-          },
-          "405": {
-            "description": "Invalid input"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    "/pet/findByStatus": {
-      "get": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Finds Pets by status",
-        "description": "Multiple status values can be provided with comma separated strings",
-        "operationId": "findPetsByStatus",
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "description": "Status values that need to be considered for filter",
-            "required": false,
-            "explode": true,
-            "schema": {
-              "$ref": "#/components/schemas/PetStatus"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Pet"
+                  "$ref": "#/components/schemas/FetchPatientResponseBody"
+                },
+                "examples": {
+                  "FetchPatient": {
+                    "$ref": "#/components/examples/FetchPatientResponse"
                   }
                 }
               }
             }
           },
           "400": {
-            "description": "Invalid status value"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    "/pet/findByTags": {
-      "get": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Finds Pets by tags",
-        "description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
-        "operationId": "findPetsByTags",
-        "parameters": [
-          {
-            "name": "tags",
-            "in": "query",
-            "description": "Tags to filter by",
-            "required": false,
-            "explode": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Pet"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid tag value"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    "/pet/{petId}": {
-      "get": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Find pet by ID",
-        "description": "Returns a single pet",
-        "operationId": "getPetById",
-        "parameters": [
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "ID of pet to return",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Pet not found"
-          }
-        },
-        "security": [
-          {
-            "api_key": []
-          },
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Updates a pet in the store with form data",
-        "description": "Updates a pet in the store with form data",
-        "operationId": "updatePetWithForm",
-        "parameters": [
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "ID of pet that needs to be updated",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "description": "Name of pet that needs to be updated",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "description": "Status of pet that needs to be updated",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          },
-          "200": {
-            "description": "Successful"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      },
-      "delete": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Deletes a pet",
-        "description": "Deletes a pet",
-        "operationId": "deletePet",
-        "parameters": [
-          {
-            "name": "api_key",
-            "in": "header",
-            "description": "",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "Pet id to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid pet value"
-          },
-          "200": {
-            "description": "Successful"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    "/pet/{petId}/uploadImage": {
-      "post": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "uploads an image",
-        "description": "uploads an image",
-        "operationId": "uploadFile",
-        "parameters": [
-          {
-            "name": "petId",
-            "in": "path",
-            "description": "ID of pet to update",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "additionalMetadata",
-            "in": "query",
-            "description": "Additional Metadata",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/octet-stream": {
-              "schema": {
-                "type": "string",
-                "format": "binary"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      }
-    },
-    "/store/inventory": {
-      "get": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Returns pet inventories by status",
-        "description": "Returns a map of status codes to quantities",
-        "operationId": "getInventory",
-        "responses": {
-          "200": {
-            "description": "successful operation",
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": {
-                    "type": "integer",
-                    "format": "int32"
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "BadRequestExample": {
+                    "$ref": "#/components/examples/BadRequestException"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "ForbiddenExample": {
+                    "$ref": "#/components/examples/ForbiddenException"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "NotFoundExample": {
+                    "$ref": "#/components/examples/NotFoundException"
                   }
                 }
               }
             }
           }
-        },
-        "security": [
-          {
-            "api_key": []
-          }
-        ]
-      }
-    },
-    "/store/order": {
-      "post": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Place an order for a pet",
-        "description": "Place a new order in the store",
-        "operationId": "placeOrder",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              }
-            }
-          },
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      }
-    },
-    "/store/order/{orderId}": {
-      "get": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Find purchase order by ID",
-        "description": "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.",
-        "operationId": "getOrderById",
-        "parameters": [
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "ID of order that needs to be fetched",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Order not found"
-          }
         }
       },
-      "delete": {
+      "put": {
         "tags": [
-          "store"
+          "Patient"
         ],
-        "summary": "Delete purchase order by ID",
-        "description": "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors",
-        "operationId": "deleteOrder",
+        "summary": "Update Patient",
+        "description": "Update a patient by id",
+        "operationId": "updatePatient",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
-            "name": "orderId",
             "in": "path",
-            "description": "ID of the order that needs to be deleted",
-            "required": true,
+            "name": "tenantId",
             "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the tenant for the patient",
+            "example": "ca41ec2f-621d-4b7d-93e6-38ec50854b5e"
+          },
+          {
+            "in": "path",
+            "name": "patientId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The UDP ID of the current patient",
+            "example": "ronin-PatientFHIRID10"
           }
         ],
-        "responses": {
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Order not found"
-          },
-          "200": {
-            "description": "Successful"
-          }
-        }
-      }
-    },
-    "/user": {
-      "post": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Create user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "createUser",
         "requestBody": {
-          "description": "Created user object",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/user/createWithList": {
-      "post": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Creates list of users with given input array",
-        "description": "Creates list of users with given input array",
-        "operationId": "createUsersWithListInput",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UpdatePatientRequestBody"
+              },
+              "examples": {
+                "UpdateQuestionnaireRequestBody": {
+                  "$ref": "#/components/examples/UpdatePatientRequestBody"
                 }
               }
             }
@@ -639,193 +214,383 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/user/login": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Logs user into the system",
-        "description": "Logs user into the system",
-        "operationId": "loginUser",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "query",
-            "description": "The user name for login",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "description": "The password for login in clear text",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "headers": {
-              "X-Rate-Limit": {
-                "description": "calls per hour allowed by the user",
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              },
-              "X-Expires-After": {
-                "description": "date in UTC when token expires",
-                "schema": {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/UpdatePatientResponseBody"
+                },
+                "examples": {
+                  "FetchPatient": {
+                    "$ref": "#/components/examples/UpdatePatientResponse"
+                  }
                 }
               }
             }
           },
           "400": {
-            "description": "Invalid username/password supplied"
-          }
-        }
-      }
-    },
-    "/user/logout": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Logs out current logged in user session",
-        "description": "Logs out current logged in user session",
-        "operationId": "logoutUser",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
-    "/user/{username}": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Get user by user name",
-        "description": "Get user by user name",
-        "operationId": "getUserByName",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be fetched. Use user1 for testing. ",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "BadRequestExample": {
+                    "$ref": "#/components/examples/BadRequestException"
+                  }
                 }
               }
             }
           },
-          "400": {
-            "description": "Invalid username supplied"
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "ForbiddenExample": {
+                    "$ref": "#/components/examples/ForbiddenException"
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "User not found"
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "NotFoundExample": {
+                    "$ref": "#/components/examples/NotFoundException"
+                  }
+                }
+              }
+            }
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/pro/tenants/{tenantId}/patients/{patientId}/onboarding-link": {
+      "get": {
         "tags": [
-          "user"
+          "Patient",
+          "PRO"
         ],
-        "summary": "Update user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "updateUser",
+        "summary": "Validate Patient Onboarding Link",
+        "description": "Validate a unique patient onboarding link is usable",
+        "operationId": "validateOnboardingLink",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
-            "name": "username",
             "in": "path",
-            "description": "name that need to be deleted",
-            "required": true,
+            "name": "tenantId",
             "schema": {
               "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the tenant for the patient",
+            "example": "ca41ec2f-621d-4b7d-93e6-38ec50854b5e"
+          },
+          {
+            "in": "path",
+            "name": "patientId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The UDP ID of the current patient",
+            "example": "ronin-PatientFHIRID10"
+          },
+          {
+            "in": "query",
+            "name": "url",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique onboarding link provided to patient",
+            "example": "https://projectronin.io/pro/onboard/3as3923-v39s-45c1-9d02-39adk394j",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidateOnboardingLinkResponseBody"
+                },
+                "examples": {
+                  "FetchPatient": {
+                    "$ref": "#/components/examples/ValidateOnboardingLinkResponse"
+                  }
+                }
+              }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "BadRequestExample": {
+                    "$ref": "#/components/examples/BadRequestException"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "NotFoundExample": {
+                    "$ref": "#/components/examples/NotFoundException"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pro/onboard": {
+      "post": {
+        "tags": [
+          "Patient",
+          "PRO"
+        ],
+        "summary": "Onboard Patient",
+        "description": "Onboard a patient with unique onboarding link",
+        "operationId": "onboardProPatient",
+        "security": [
+          {
+            "bearerAuth": []
           }
         ],
         "requestBody": {
-          "description": "Update an existent user in the store",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/OnboardProPatientRequestBody"
+              },
+              "examples": {
+                "UpdateQuestionnaireRequestBody": {
+                  "$ref": "#/components/examples/OnboardProPatientRequestBody"
+                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "successful operation"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Delete user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "deleteUser",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardProPatientResponseBody"
+                },
+                "examples": {
+                  "FetchPatient": {
+                    "$ref": "#/components/examples/OnboardProPatientResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "BadRequestExample": {
+                    "$ref": "#/components/examples/BadRequestException"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "ForbiddenExample": {
+                    "$ref": "#/components/examples/ForbiddenException"
+                  }
+                }
+              }
             }
           }
+        }
+      }
+    },
+    "/legacy/onboard": {
+      "post": {
+        "tags": [
+          "Patient",
+          "Legacy"
         ],
+        "summary": "Onboard Patient",
+        "description": "Onboard a patient with user inputs",
+        "operationId": "onboardLegacyPatient",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardLegacyPatientRequestBody"
+              },
+              "examples": {
+                "UpdateQuestionnaireRequestBody": {
+                  "$ref": "#/components/examples/OnboardLegacyPatientRequestBody"
+                }
+              }
+            }
+          }
+        },
         "responses": {
-          "400": {
-            "description": "Invalid username supplied"
-          },
-          "404": {
-            "description": "User not found"
-          },
           "200": {
-            "description": "Successful"
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardLegacyPatientResponseBody"
+                },
+                "examples": {
+                  "FetchPatient": {
+                    "$ref": "#/components/examples/OnboardLegacyPatientResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "BadRequestExample": {
+                    "$ref": "#/components/examples/BadRequestException"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "ForbiddenExample": {
+                    "$ref": "#/components/examples/ForbiddenException"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -833,296 +598,407 @@
   },
   "components": {
     "schemas": {
-      "Order": {
+      "FetchPatientResponseBody": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 10
-          },
-          "petId": {
-            "type": "integer",
-            "format": "int64",
-            "example": 198772
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32",
-            "example": 7
-          },
-          "shipDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "status": {
-            "type": "string",
-            "description": "Order Status",
-            "example": "approved",
-            "enum": [
-              "placed",
-              "approved",
-              "delivered"
-            ]
-          },
-          "complete": {
-            "type": "boolean"
+          "data": {
+            "$ref": "#/components/schemas/Patient"
           }
         },
-        "xml": {
-          "name": "order"
-        }
+        "required": [
+          "data"
+        ]
       },
-      "Customer": {
+      "UpdatePatientRequestBody": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 100000
-          },
-          "username": {
+          "preferredName": {
             "type": "string",
-            "example": "fehguy"
+            "description": "Patient preferred name"
           },
-          "address": {
-            "type": "array",
-            "xml": {
-              "name": "addresses",
-              "wrapped": true
-            },
-            "items": {
-              "$ref": "#/components/schemas/Address"
-            }
+          "timezone": {
+            "type": "string",
+            "description": "Patient timezone"
+          }
+        }
+      },
+      "UpdatePatientResponseBody": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Patient"
           }
         },
-        "xml": {
-          "name": "customer"
-        }
+        "required": [
+          "data"
+        ]
       },
-      "Address": {
+      "ValidateOnboardingLinkResponseBody": {
         "type": "object",
         "properties": {
-          "street": {
-            "type": "string",
-            "example": "437 Lytton"
-          },
-          "city": {
-            "type": "string",
-            "example": "Palo Alto"
-          },
-          "state": {
-            "type": "string",
-            "example": "CA"
-          },
-          "zip": {
-            "type": "string",
-            "example": "94301"
+          "data": {
+            "$ref": "#/components/schemas/OnboardingLink"
           }
         },
-        "xml": {
-          "name": "address"
-        }
+        "required": [
+          "data"
+        ]
       },
-      "Category": {
+      "OnboardingLink": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 1
-          },
-          "name": {
+          "url": {
             "type": "string",
-            "example": "Dogs"
+            "description": "The unique onboarding link"
+          },
+          "valid": {
+            "type": "boolean",
+            "description": "If the onboarding link is still valid"
+          },
+          "expirationTimestamp": {
+            "type": "string",
+            "description": "Date and time the onboarding link expires"
           }
-        },
-        "xml": {
-          "name": "category"
         }
       },
-      "User": {
+      "OnboardProPatientRequestBody": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 10
-          },
-          "username": {
+          "url": {
             "type": "string",
-            "example": "theUser"
-          },
-          "firstName": {
-            "type": "string",
-            "example": "John"
-          },
-          "lastName": {
-            "type": "string",
-            "example": "James"
-          },
-          "email": {
-            "type": "string",
-            "example": "john@email.com"
-          },
-          "password": {
-            "type": "string",
-            "example": "12345"
+            "description": "Unique onboarding link"
           },
           "phone": {
             "type": "string",
-            "example": "12345"
+            "description": "Phone number submitted by user"
           },
-          "userStatus": {
-            "type": "integer",
-            "description": "User Status",
-            "format": "int32",
-            "example": 1
-          }
-        },
-        "xml": {
-          "name": "user"
-        }
-      },
-      "Tag": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "xml": {
-          "name": "tag"
-        }
-      },
-      "Pet": {
-        "required": [
-          "name",
-          "photoUrls"
-        ],
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 10
-          },
-          "name": {
+          "birthDate": {
             "type": "string",
-            "example": "doggie"
+            "description": "Date of birth submitted by user"
+          }
+        }
+      },
+      "OnboardProPatientResponseBody": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Patient"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "OnboardLegacyPatientRequestBody": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "First name submitted by user"
           },
-          "category": {
-            "$ref": "#/components/schemas/Category"
+          "lastName": {
+            "type": "string",
+            "description": "Last name submitted by user"
           },
-          "photoUrls": {
-            "type": "array",
-            "xml": {
-              "wrapped": true
-            },
-            "items": {
-              "type": "string",
-              "xml": {
-                "name": "photoUrl"
-              }
-            }
+          "phone": {
+            "type": "string",
+            "description": "Phone number submitted by user"
           },
-          "tags": {
-            "type": "array",
-            "xml": {
-              "wrapped": true
-            },
-            "items": {
-              "$ref": "#/components/schemas/Tag"
-            }
+          "birthDate": {
+            "type": "string",
+            "description": "Date of birth submitted by user"
+          }
+        }
+      },
+      "OnboardLegacyPatientResponseBody": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Patient"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "Patient": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "UUID generated by Ronin"
+          },
+          "udpId": {
+            "type": "string",
+            "description": "UDP id used across services"
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "ID of the patient's tenant"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Patient first name"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Patient last name"
+          },
+          "birthDate": {
+            "type": "string",
+            "description": "Patient date of birth"
+          },
+          "email": {
+            "type": "string",
+            "description": "Patient email"
+          },
+          "preferredName": {
+            "type": "string",
+            "description": "Patient preferred name"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Patient timezone"
+          },
+          "proEnabled": {
+            "type": "boolean",
+            "description": "If the patient is enabled for PRO order surveys"
+          },
+          "createdTimestamp": {
+            "type": "string",
+            "description": "Date and time patient was created. For PRO patients this should align with the creation of the first survey order"
+          },
+          "onboardedTimestamp": {
+            "type": "string",
+            "description": "Date and time patient onboarding was completed"
+          }
+        },
+        "required": [
+          "id",
+          "udpId",
+          "tenantId",
+          "firstName",
+          "lastName",
+          "birthDate",
+          "email",
+          "proEnabled",
+          "createdTimestamp"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique ID for this error"
+          },
+          "source": {
+            "type": "string",
+            "description": "Service where the error originated"
+          },
+          "httpStatus": {
+            "type": "string",
+            "enum": [
+              "NOT_FOUND",
+              "FORBIDDEN",
+              "BAD_REQUEST"
+            ],
+            "description": "String representation of HTTP status"
+          },
+          "timestamp": {
+            "type": "string"
           },
           "status": {
-            "type": "string",
-            "description": "pet status in the store",
-            "enum": [
-              "available",
-              "pending",
-              "sold"
-            ]
-          }
-        },
-        "xml": {
-          "name": "pet"
-        }
-      },
-      "ApiResponse": {
-        "type": "object",
-        "properties": {
-          "code": {
             "type": "integer",
-            "format": "int32"
+            "description": "HTTP status"
           },
-          "type": {
-            "type": "string"
+          "error": {
+            "type": "string",
+            "description": "Human readable form of the exception or httpStatus. This MUST be included"
+          },
+          "exception": {
+            "type": "string",
+            "description": "The exception class"
           },
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "Human readable message"
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human readable message that describes the specific failure"
           }
-        },
-        "xml": {
-          "name": "##default"
         }
-      },
-      "PetStatus": {
-        "type": "string",
-        "default": "available",
-        "enum": [
-          "available",
-          "pending",
-          "sold"
-        ]
       }
     },
-    "requestBodies": {
-      "Pet": {
-        "description": "Pet object that needs to be added to the store",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Pet"
-            }
+    "examples": {
+      "UpdatePatientRequestBody": {
+        "summary": "Example request body for updating a patient with additional properties after onboarding is complete",
+        "value": {
+          "preferredName": "Rick",
+          "timezone": "America/Chicago"
+        }
+      },
+      "FetchPatientResponse": {
+        "summary": "Successful fetch",
+        "value": {
+          "data": {
+            "id": "1xrpox5-9b42sdf37-b4ec-45c1-9d02-97a9f83171",
+            "udpId": "ronin-PatientFHIRID10",
+            "tenantId": "ca41ec2f-621d-4b7d-93e6-38ec50854b5e",
+            "firstName": "Ricky",
+            "lastName": "Bobby",
+            "birthDate": "1974-08-12T00:00:00.00Z",
+            "email": "rickybobby@ronin.com",
+            "preferredName": "Rick",
+            "timezone": "America/Chicago",
+            "proEnabled": true,
+            "createdTimestamp": "2023-11-08T08:33:32.13Z",
+            "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
           }
         }
       },
-      "UserArray": {
-        "description": "List of user object",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
+      "UpdatePatientResponse": {
+        "summary": "Successful update",
+        "value": {
+          "data": {
+            "id": "1xrpox5-9b42sdf37-b4ec-45c1-9d02-97a9f83171",
+            "udpId": "ronin-PatientFHIRID10",
+            "tenantId": "ca41ec2f-621d-4b7d-93e6-38ec50854b5e",
+            "firstName": "Ricky",
+            "lastName": "Bobby",
+            "birthDate": "1974-08-12",
+            "email": "rickybobby@ronin.com",
+            "preferredName": "Rick",
+            "timezone": "America/Chicago",
+            "proEnabled": true,
+            "createdTimestamp": "2023-11-08T08:33:32.13Z",
+            "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
           }
+        }
+      },
+      "ValidateOnboardingLinkResponse": {
+        "summary": "Successful fetch",
+        "value": {
+          "url": "https://projectronin.io/pro/onboard/3as3923-v39s-45c1-9d02-39adk394j",
+          "valid": true,
+          "expirationTimestamp": "2024-12-01T08:34:73.13Z"
+        }
+      },
+      "OnboardProPatientRequestBody": {
+        "summary": "Example request body for onboarding a PRO patient",
+        "value": {
+          "url": "https://projectronin.io/pro/onboard/3as3923-v39s-45c1-9d02-39adk394j",
+          "phone": "5552239349",
+          "birthDate": "1974-08-12"
+        }
+      },
+      "OnboardProPatientResponse": {
+        "summary": "Successful create",
+        "value": {
+          "data": {
+            "id": "1xrpox5-9b42sdf37-b4ec-45c1-9d02-97a9f83171",
+            "udpId": "ronin-PatientFHIRID10",
+            "tenantId": "ca41ec2f-621d-4b7d-93e6-38ec50854b5e",
+            "firstName": "Ricky",
+            "lastName": "Bobby",
+            "birthDate": "1974-08-12T00:00:00.00Z",
+            "email": "rickybobby@ronin.com",
+            "preferredName": "Rick",
+            "timezone": "America/Chicago",
+            "proEnabled": true,
+            "createdTimestamp": "2023-11-08T08:33:32.13Z",
+            "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
+          }
+        }
+      },
+      "OnboardLegacyPatientRequestBody": {
+        "summary": "Example request body for onboarding a Legacy patient",
+        "value": {
+          "firstName": "Ricky",
+          "lastName": "Bobby",
+          "phone": "5552239349",
+          "birthDate": "1974-08-12"
+        }
+      },
+      "OnboardLegacyPatientResponse": {
+        "summary": "Successful create",
+        "value": {
+          "data": {
+            "id": "1xrpox5-9b42sdf37-b4ec-45c1-9d02-97a9f83171",
+            "udpId": "ronin-PatientFHIRID10",
+            "tenantId": "ca41ec2f-621d-4b7d-93e6-38ec50854b5e",
+            "firstName": "Ricky",
+            "lastName": "Bobby",
+            "birthDate": "1974-08-12T00:00:00.00Z",
+            "email": "rickybobby@ronin.com",
+            "preferredName": "Rick",
+            "timezone": "America/Chicago",
+            "proEnabled": false,
+            "createdTimestamp": "2023-12-01T08:34:73.13Z",
+            "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
+          }
+        }
+      },
+      "NotFoundException": {
+        "summary": "Resource Not Found",
+        "value": {
+          "errors": [
+            {
+              "id": "ronin-PatientFHIRID10",
+              "source": "patient-management-service",
+              "httpStatus": "NOT_FOUND",
+              "timestamp": "2023-10-11T06:53:17.45Z",
+              "status": 404,
+              "error": "Resource not found",
+              "exception": "com.projectronin.product.common.exception.NotFoundException",
+              "message": "Patient with ID ronin-PatientFHIRID10 not found",
+              "detail": "No patient in the DB found with the ID ronin-PatientFHIRID10"
+            }
+          ]
+        }
+      },
+      "BadRequestException": {
+        "summary": "Bad Request",
+        "value": {
+          "errors": [
+            {
+              "id": "ronin-PatientFHIRID10",
+              "source": "patient-management-service",
+              "httpStatus": "BAD_REQUEST",
+              "timestamp": "2023-10-11T06:53:17.45Z",
+              "status": 400,
+              "error": "Bad request",
+              "exception": "com.projectronin.product.common.exception.BadRequestException",
+              "message": "Could not parse request body",
+              "detail": "Must include the \"type\" property"
+            }
+          ]
+        }
+      },
+      "ForbiddenException": {
+        "summary": "Forbidden",
+        "value": {
+          "errors": [
+            {
+              "id": "ronin-PatientFHIRID10",
+              "source": "patient-management-service",
+              "httpStatus": "FORBIDDEN",
+              "status": 403,
+              "error": "Forbidden",
+              "exception": "com.projectronin.produce.common.exception.ForbiddenException",
+              "message": "Forbidden",
+              "detail": "No"
+            }
+          ]
         }
       }
     },
     "securitySchemes": {
-      "petstore_auth": {
-        "type": "oauth2",
-        "flows": {
-          "implicit": {
-            "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize",
-            "scopes": {
-              "write:pets": "modify pets in your account",
-              "read:pets": "read your pets"
-            }
-          }
-        }
-      },
-      "api_key": {
-        "type": "apiKey",
-        "name": "api_key",
-        "in": "header"
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
