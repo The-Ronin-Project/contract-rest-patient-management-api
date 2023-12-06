@@ -659,7 +659,13 @@
             "type": "string",
             "description": "Date and time the onboarding link expires"
           }
-        }
+        },
+        "required": [
+          "url",
+          "valid",
+          "tenantId",
+          "expirationTimestamp"
+        ]
       },
       "OnboardProPatientRequestBody": {
         "type": "object",
@@ -880,9 +886,11 @@
       "ValidateOnboardingLinkResponse": {
         "summary": "Successful fetch",
         "value": {
-          "url": "https://projectronin.io/pro/onboard/3as3923-v39s-45c1-9d02-39adk394j",
-          "valid": true,
-          "expirationTimestamp": "2024-12-01T08:34:73.13Z"
+          "data": {
+            "url": "https://projectronin.io/pro/onboard/3as3923-v39s-45c1-9d02-39adk394j",
+            "valid": true,
+            "expirationTimestamp": "2024-12-01T08:34:73.13Z"
+          }
         }
       },
       "OnboardProPatientRequestBody": {
