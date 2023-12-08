@@ -753,7 +753,7 @@
           "proEnabled": {
             "type": "boolean",
             "description": "If the patient is enabled for PRO order surveys"
-          }
+          },
           "onboardedTimestamp": {
             "type": "string",
             "description": "Date and time patient onboarding was completed"
