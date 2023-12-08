@@ -1,0 +1,983 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Patient Management Service REST API - OpenAPI 3.0",
+    "description": "REST API contract for the patient management service. \n\nSome useful links:\n- [Patient Management Service Repository](https://github.com/projectronin/prodeng-patient-management)",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "hannah@projectronin.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Patient",
+      "description": "Endpoints used by the patient apps"
+    }
+  ],
+  "paths": {
+    "/tenants/{tenantId}/patients/{patientId}": {
+      "get": {
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Fetch Patient",
+        "description": "Fetch a patient by id",
+        "operationId": "fetchPatient",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the tenant for the patient",
+            "example": "1xrekpx5"
+          },
+          {
+            "in": "path",
+            "name": "patientId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The UDP ID of the current patient",
+            "example": "ronin-PatientFHIRID10"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchPatientResponseBody"
+                },
+                "examples": {
+                  "FetchPatient": {
+                    "$ref": "#/components/examples/FetchPatientResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "BadRequestExample": {
+                    "$ref": "#/components/examples/BadRequestException"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "ForbiddenExample": {
+                    "$ref": "#/components/examples/ForbiddenException"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "NotFoundExample": {
+                    "$ref": "#/components/examples/NotFoundException"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Update Patient",
+        "description": "Update a patient by id",
+        "operationId": "updatePatient",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the tenant for the patient",
+            "example": "1xrekpx5"
+          },
+          {
+            "in": "path",
+            "name": "patientId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The UDP ID of the current patient",
+            "example": "ronin-PatientFHIRID10"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePatientRequestBody"
+              },
+              "examples": {
+                "UpdateQuestionnaireRequestBody": {
+                  "$ref": "#/components/examples/UpdatePatientRequestBody"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePatientResponseBody"
+                },
+                "examples": {
+                  "FetchPatient": {
+                    "$ref": "#/components/examples/UpdatePatientResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "BadRequestExample": {
+                    "$ref": "#/components/examples/BadRequestException"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "ForbiddenExample": {
+                    "$ref": "#/components/examples/ForbiddenException"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "NotFoundExample": {
+                    "$ref": "#/components/examples/NotFoundException"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pro/tenants/{tenantId}/patients/{patientId}/onboarding-link": {
+      "get": {
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Validate Patient Onboarding Link",
+        "description": "Validate a unique patient onboarding link is usable",
+        "operationId": "validateOnboardingLink",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the tenant for the patient",
+            "example": "ca41ec2f-621d-4b7d-93e6-38ec50854b5e"
+          },
+          {
+            "in": "path",
+            "name": "patientId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The UDP ID of the current patient",
+            "example": "ronin-PatientFHIRID10"
+          },
+          {
+            "in": "query",
+            "name": "url",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique onboarding link provided to patient",
+            "example": "https://projectronin.io/pro/onboard/3as3923-v39s-45c1-9d02-39adk394j",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidateOnboardingLinkResponseBody"
+                },
+                "examples": {
+                  "FetchPatient": {
+                    "$ref": "#/components/examples/ValidateOnboardingLinkResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "BadRequestExample": {
+                    "$ref": "#/components/examples/BadRequestException"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "NotFoundExample": {
+                    "$ref": "#/components/examples/NotFoundException"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pro/onboard": {
+      "post": {
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Onboard Patient",
+        "description": "Onboard a patient with unique onboarding link",
+        "operationId": "onboardProPatient",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardProPatientRequestBody"
+              },
+              "examples": {
+                "UpdateQuestionnaireRequestBody": {
+                  "$ref": "#/components/examples/OnboardProPatientRequestBody"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardProPatientResponseBody"
+                },
+                "examples": {
+                  "FetchPatient": {
+                    "$ref": "#/components/examples/OnboardProPatientResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "BadRequestExample": {
+                    "$ref": "#/components/examples/BadRequestException"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "ForbiddenExample": {
+                    "$ref": "#/components/examples/ForbiddenException"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/legacy/onboard": {
+      "post": {
+        "tags": [
+          "Patient"
+        ],
+        "summary": "Onboard Patient",
+        "description": "Onboard a patient with user inputs",
+        "operationId": "onboardLegacyPatient",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OnboardLegacyPatientRequestBody"
+              },
+              "examples": {
+                "UpdateQuestionnaireRequestBody": {
+                  "$ref": "#/components/examples/OnboardLegacyPatientRequestBody"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OnboardLegacyPatientResponseBody"
+                },
+                "examples": {
+                  "FetchPatient": {
+                    "$ref": "#/components/examples/OnboardLegacyPatientResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "BadRequestExample": {
+                    "$ref": "#/components/examples/BadRequestException"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "ForbiddenExample": {
+                    "$ref": "#/components/examples/ForbiddenException"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FetchPatientResponseBody": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Patient"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "UpdatePatientRequestBody": {
+        "type": "object",
+        "properties": {
+          "preferredName": {
+            "type": "string",
+            "description": "Patient preferred name"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Patient timezone"
+          }
+        }
+      },
+      "UpdatePatientResponseBody": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Patient"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "ValidateOnboardingLinkResponseBody": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/OnboardingLink"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "OnboardingLink": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The unique onboarding link"
+          },
+          "valid": {
+            "type": "boolean",
+            "description": "If the onboarding link is still valid"
+          },
+          "expirationTimestamp": {
+            "type": "string",
+            "description": "Date and time the onboarding link expires"
+          }
+        },
+        "required": [
+          "url",
+          "valid",
+          "expirationTimestamp"
+        ]
+      },
+      "OnboardProPatientRequestBody": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "Unique onboarding link"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number submitted by user"
+          },
+          "birthDate": {
+            "type": "string",
+            "description": "Date of birth submitted by user"
+          }
+        }
+      },
+      "OnboardProPatientResponseBody": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Patient"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "OnboardLegacyPatientRequestBody": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "First name submitted by user"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name submitted by user"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number submitted by user"
+          },
+          "birthDate": {
+            "type": "string",
+            "description": "Date of birth submitted by user"
+          }
+        }
+      },
+      "OnboardLegacyPatientResponseBody": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/Patient"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "Patient": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Patient UDP id used across services"
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "ID of the patient's tenant"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Patient first name"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Patient last name"
+          },
+          "birthDate": {
+            "type": "string",
+            "description": "Patient date of birth"
+          },
+          "email": {
+            "type": "string",
+            "description": "Patient email"
+          },
+          "preferredName": {
+            "type": "string",
+            "description": "Patient preferred name"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Patient timezone"
+          },
+          "proEnabled": {
+            "type": "boolean",
+            "description": "If the patient is enabled for PRO order surveys"
+          },
+          "onboardedTimestamp": {
+            "type": "string",
+            "description": "Date and time patient onboarding was completed"
+          }
+        },
+        "required": [
+          "id",
+          "tenantId",
+          "firstName",
+          "lastName",
+          "birthDate",
+          "email",
+          "proEnabled"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique ID for this error"
+          },
+          "source": {
+            "type": "string",
+            "description": "Service where the error originated"
+          },
+          "httpStatus": {
+            "type": "string",
+            "enum": [
+              "NOT_FOUND",
+              "FORBIDDEN",
+              "BAD_REQUEST"
+            ],
+            "description": "String representation of HTTP status"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "description": "HTTP status"
+          },
+          "error": {
+            "type": "string",
+            "description": "Human readable form of the exception or httpStatus. This MUST be included"
+          },
+          "exception": {
+            "type": "string",
+            "description": "The exception class"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human readable message"
+          },
+          "detail": {
+            "type": "string",
+            "description": "A human readable message that describes the specific failure"
+          }
+        }
+      }
+    },
+    "examples": {
+      "UpdatePatientRequestBody": {
+        "summary": "Example request body for updating a patient with additional properties after onboarding is complete",
+        "value": {
+          "preferredName": "Rick",
+          "timezone": "America/Chicago"
+        }
+      },
+      "FetchPatientResponse": {
+        "summary": "Successful fetch",
+        "value": {
+          "data": {
+            "id": "ronin-PatientFHIRID10",
+            "tenantId": "1xrekpx5",
+            "firstName": "Ricky",
+            "lastName": "Bobby",
+            "birthDate": "1974-08-12",
+            "email": "rickybobby@ronin.com",
+            "preferredName": "Rick",
+            "timezone": "America/Chicago",
+            "proEnabled": true,
+            "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
+          }
+        }
+      },
+      "UpdatePatientResponse": {
+        "summary": "Successful update",
+        "value": {
+          "data": {
+            "id": "ronin-PatientFHIRID10",
+            "tenantId": "1xrekpx5",
+            "firstName": "Ricky",
+            "lastName": "Bobby",
+            "birthDate": "1974-08-12",
+            "email": "rickybobby@ronin.com",
+            "preferredName": "Rick",
+            "timezone": "America/Chicago",
+            "proEnabled": true,
+            "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
+          }
+        }
+      },
+      "ValidateOnboardingLinkResponse": {
+        "summary": "Successful fetch",
+        "value": {
+          "data": {
+            "url": "https://projectronin.io/pro/onboard/3as3923-v39s-45c1-9d02-39adk394j",
+            "valid": true,
+            "expirationTimestamp": "2024-12-01T08:34:73.13Z"
+          }
+        }
+      },
+      "OnboardProPatientRequestBody": {
+        "summary": "Example request body for onboarding a PRO patient",
+        "value": {
+          "url": "https://projectronin.io/pro/onboard/3as3923-v39s-45c1-9d02-39adk394j",
+          "phone": "5552239349",
+          "birthDate": "1974-08-12"
+        }
+      },
+      "OnboardProPatientResponse": {
+        "summary": "Successful create",
+        "value": {
+          "data": {
+            "id": "ronin-PatientFHIRID10",
+            "tenantId": "1xrekpx5",
+            "firstName": "Ricky",
+            "lastName": "Bobby",
+            "birthDate": "1974-08-12",
+            "email": "rickybobby@ronin.com",
+            "preferredName": "Rick",
+            "timezone": "America/Chicago",
+            "proEnabled": true,
+            "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
+          }
+        }
+      },
+      "OnboardLegacyPatientRequestBody": {
+        "summary": "Example request body for onboarding a Legacy patient",
+        "value": {
+          "firstName": "Ricky",
+          "lastName": "Bobby",
+          "phone": "5552239349",
+          "birthDate": "1974-08-12"
+        }
+      },
+      "OnboardLegacyPatientResponse": {
+        "summary": "Successful create",
+        "value": {
+          "data": {
+            "id": "ronin-PatientFHIRID10",
+            "tenantId": "1xrekpx5",
+            "firstName": "Ricky",
+            "lastName": "Bobby",
+            "birthDate": "1974-08-12",
+            "email": "rickybobby@ronin.com",
+            "preferredName": "Rick",
+            "timezone": "America/Chicago",
+            "proEnabled": false,
+            "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
+          }
+        }
+      },
+      "NotFoundException": {
+        "summary": "Resource Not Found",
+        "value": {
+          "errors": [
+            {
+              "id": "73c0e38e-95f6-11ee-b9d1-0242ac120002",
+              "source": "patient-management-service",
+              "httpStatus": "NOT_FOUND",
+              "timestamp": "2023-10-11T06:53:17.45Z",
+              "status": 404,
+              "error": "Resource not found",
+              "exception": "com.projectronin.product.common.exception.NotFoundException",
+              "message": "Patient with ID ronin-PatientFHIRID10 not found",
+              "detail": "No patient in the DB found with the ID ronin-PatientFHIRID10"
+            }
+          ]
+        }
+      },
+      "BadRequestException": {
+        "summary": "Bad Request",
+        "value": {
+          "errors": [
+            {
+              "id": "7cee23ea-95f6-11ee-b9d1-0242ac120002",
+              "source": "patient-management-service",
+              "httpStatus": "BAD_REQUEST",
+              "timestamp": "2023-10-11T06:53:17.45Z",
+              "status": 400,
+              "error": "Bad request",
+              "exception": "com.projectronin.product.common.exception.BadRequestException",
+              "message": "Could not parse request body",
+              "detail": "Must include the \"type\" property"
+            }
+          ]
+        }
+      },
+      "ForbiddenException": {
+        "summary": "Forbidden",
+        "value": {
+          "errors": [
+            {
+              "id": "81c92e14-95f6-11ee-b9d1-0242ac120002",
+              "source": "patient-management-service",
+              "httpStatus": "FORBIDDEN",
+              "status": 403,
+              "error": "Forbidden",
+              "exception": "com.projectronin.produce.common.exception.ForbiddenException",
+              "message": "Forbidden",
+              "detail": "No"
+            }
+          ]
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
