@@ -718,9 +718,9 @@
       "Patient": {
         "type": "object",
         "properties": {
-          "udpId": {
+          "id": {
             "type": "string",
-            "description": "UDP id used across services"
+            "description": "Patient UDP id used across services"
           },
           "tenantId": {
             "type": "string",
@@ -760,7 +760,7 @@
           }
         },
         "required": [
-          "udpId",
+          "id",
           "tenantId",
           "firstName",
           "lastName",
@@ -827,12 +827,11 @@
         "summary": "Successful fetch",
         "value": {
           "data": {
-            "id": "1xrpox5-9b42sdf37-b4ec-45c1-9d02-97a9f83171",
-            "udpId": "ronin-PatientFHIRID10",
+            "id": "ronin-PatientFHIRID10",
             "tenantId": "ca41ec2f-621d-4b7d-93e6-38ec50854b5e",
             "firstName": "Ricky",
             "lastName": "Bobby",
-            "birthDate": "1974-08-12T00:00:00.00Z",
+            "birthDate": "1974-08-12",
             "email": "rickybobby@ronin.com",
             "preferredName": "Rick",
             "timezone": "America/Chicago",
@@ -845,7 +844,7 @@
         "summary": "Successful update",
         "value": {
           "data": {
-            "udpId": "ronin-PatientFHIRID10",
+            "id": "ronin-PatientFHIRID10",
             "tenantId": "ca41ec2f-621d-4b7d-93e6-38ec50854b5e",
             "firstName": "Ricky",
             "lastName": "Bobby",
@@ -880,11 +879,11 @@
         "summary": "Successful create",
         "value": {
           "data": {
-            "udpId": "ronin-PatientFHIRID10",
+            "id": "ronin-PatientFHIRID10",
             "tenantId": "ca41ec2f-621d-4b7d-93e6-38ec50854b5e",
             "firstName": "Ricky",
             "lastName": "Bobby",
-            "birthDate": "1974-08-12T00:00:00.00Z",
+            "birthDate": "1974-08-12",
             "email": "rickybobby@ronin.com",
             "preferredName": "Rick",
             "timezone": "America/Chicago",
@@ -906,11 +905,11 @@
         "summary": "Successful create",
         "value": {
           "data": {
-            "udpId": "ronin-PatientFHIRID10",
+            "id": "ronin-PatientFHIRID10",
             "tenantId": "ca41ec2f-621d-4b7d-93e6-38ec50854b5e",
             "firstName": "Ricky",
             "lastName": "Bobby",
-            "birthDate": "1974-08-12T00:00:00.00Z",
+            "birthDate": "1974-08-12",
             "email": "rickybobby@ronin.com",
             "preferredName": "Rick",
             "timezone": "America/Chicago",
@@ -924,7 +923,7 @@
         "value": {
           "errors": [
             {
-              "id": "ronin-PatientFHIRID10",
+              "id": "73c0e38e-95f6-11ee-b9d1-0242ac120002",
               "source": "patient-management-service",
               "httpStatus": "NOT_FOUND",
               "timestamp": "2023-10-11T06:53:17.45Z",
@@ -942,7 +941,7 @@
         "value": {
           "errors": [
             {
-              "id": "ronin-PatientFHIRID10",
+              "id": "7cee23ea-95f6-11ee-b9d1-0242ac120002",
               "source": "patient-management-service",
               "httpStatus": "BAD_REQUEST",
               "timestamp": "2023-10-11T06:53:17.45Z",
@@ -960,7 +959,7 @@
         "value": {
           "errors": [
             {
-              "id": "ronin-PatientFHIRID10",
+              "id": "81c92e14-95f6-11ee-b9d1-0242ac120002",
               "source": "patient-management-service",
               "httpStatus": "FORBIDDEN",
               "status": 403,
