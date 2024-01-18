@@ -754,6 +754,10 @@
             "type": "boolean",
             "description": "If the patient is enabled for PRO order surveys"
           },
+          "invitedTimestamp": {
+            "type": "string",
+            "description": "Date and time patient onboarding invitation was sent"
+          },
           "onboardedTimestamp": {
             "type": "string",
             "description": "Date and time patient onboarding was completed"
@@ -836,6 +840,7 @@
             "preferredName": "Rick",
             "timezone": "America/Chicago",
             "proEnabled": true,
+            "invitedTimestamp": "2023-11-28T04:23:43.10Z",
             "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
           }
         }
@@ -853,6 +858,7 @@
             "preferredName": "Rick",
             "timezone": "America/Chicago",
             "proEnabled": true,
+            "invitedTimestamp": "2023-11-28T04:23:43.10Z",
             "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
           }
         }
@@ -888,6 +894,7 @@
             "preferredName": "Rick",
             "timezone": "America/Chicago",
             "proEnabled": true,
+            "invitedTimestamp": "2023-11-28T04:23:43.10Z",
             "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
           }
         }
@@ -914,6 +921,7 @@
             "preferredName": "Rick",
             "timezone": "America/Chicago",
             "proEnabled": false,
+            "invitedTimestamp": null,
             "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
           }
         }
