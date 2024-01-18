@@ -921,7 +921,6 @@
             "preferredName": "Rick",
             "timezone": "America/Chicago",
             "proEnabled": false,
-            "invitedTimestamp": null,
             "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
           }
         }
