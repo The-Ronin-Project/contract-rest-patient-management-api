@@ -415,6 +415,28 @@
             "bearerAuth": []
           }
         ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the tenant for the patient",
+            "example": "1xrekpx5"
+          },
+          {
+            "in": "path",
+            "name": "patientId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The UDP ID of the current patient",
+            "example": "ronin-PatientFHIRID10"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1235,18 +1257,11 @@
         "value": {
           "data": {
             "id": "2fdk93nc-38ds9-3d9d-2j3j-0238dc120932",
-            "udpId": null,
             "tenantId": "ronin",
             "firstName": "Ricky",
             "lastName": "Bobby",
             "birthDate": "1974-08-12",
             "phone": "5552239349",
-            "email": null,
-            "primaryCancerTypeId": null,
-            "departmentId": null,
-            "providerId": null,
-            "ctRandId": null,
-            "enabled": null,
             "onboardingFailureReason": "Multiple patients found",
             "onboardingFailureDetails": {
               "patientRecords": [
