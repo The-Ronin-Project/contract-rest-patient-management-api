@@ -11,7 +11,7 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.0"
+    "version": "1.0.2"
   },
   "externalDocs": {
     "description": "Find out more about Swagger",
@@ -26,10 +26,14 @@
     {
       "name": "Patient",
       "description": "Endpoints used by the patient apps"
+    },
+    {
+      "name": "Admin",
+      "description": "Endpoints used by the admin console"
     }
   ],
   "paths": {
-    "/tenants/{tenantId}/patients/{patientId}": {
+    "/tenants/{tenantId}/patients/{patientId}/views/patient": {
       "get": {
         "tags": [
           "Patient"
@@ -288,7 +292,7 @@
         }
       }
     },
-    "/pro/tenants/{tenantId}/patients/{patientId}/onboarding-link": {
+    "/tenants/{tenantId}/patients/{patientId}/link/validate": {
       "get": {
         "tags": [
           "Patient"
@@ -398,7 +402,7 @@
         }
       }
     },
-    "/pro/onboard": {
+    "/tenants/{tenantId}/patients/{patientId}/pro/onboard": {
       "post": {
         "tags": [
           "Patient"
@@ -409,6 +413,28 @@
         "security": [
           {
             "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tenantId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The ID of the tenant for the patient",
+            "example": "1xrekpx5"
+          },
+          {
+            "in": "path",
+            "name": "patientId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The UDP ID of the current patient",
+            "example": "ronin-PatientFHIRID10"
           }
         ],
         "requestBody": {
@@ -576,6 +602,107 @@
                 "examples": {
                   "ForbiddenExample": {
                     "$ref": "#/components/examples/ForbiddenException"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/partial-patients/views/admin": {
+      "get": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Fetch Partial Patients",
+        "description": "Fetch all unresolved partial patientss",
+        "operationId": "fetchPartialPatients",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FetchPartialPatientsResponseBody"
+                },
+                "examples": {
+                  "FetchPatient": {
+                    "$ref": "#/components/examples/FetchPartialPatientsResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "BadRequestExample": {
+                    "$ref": "#/components/examples/BadRequestException"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "ForbiddenExample": {
+                    "$ref": "#/components/examples/ForbiddenException"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Error"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "NotFoundExample": {
+                    "$ref": "#/components/examples/NotFoundException"
                   }
                 }
               }
@@ -773,6 +900,206 @@
           "proEnabled"
         ]
       },
+      "FetchPartialPatientsResponseBody": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PartialPatient"
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "PartialPatient": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "UUID generated by Patient Management Service"
+          },
+          "udpId": {
+            "type": "string",
+            "description": "Patient UDP id used across services"
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "ID of the patient's tenant"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Patient first name"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Patient last name"
+          },
+          "birthDate": {
+            "type": "string",
+            "description": "Patient date of birth"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Patient phone number"
+          },
+          "email": {
+            "type": "string",
+            "description": "Patient email"
+          },
+          "primaryCancerTypeId": {
+            "type": "number",
+            "description": "Chokuto primary cancer type ID"
+          },
+          "departmentId": {
+            "type": "number",
+            "description": "Chokuto department ID"
+          },
+          "providerId": {
+            "type": "string",
+            "description": "Chokuto provider ID"
+          },
+          "ctRandId": {
+            "type": "string",
+            "description": "Prometheus CT patient id"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "PRO patient active status"
+          },
+          "onboardingFailureReason": {
+            "type": "string",
+            "description": "High level description of why onboarding failed"
+          },
+          "onboardingFailureDetails": {
+            "type": "object",
+            "properties": {
+              "patientRecords": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PatientRecord"
+                }
+              },
+              "providers": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Provider"
+                }
+              },
+              "departments": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Department"
+                }
+              },
+              "primaryCancerTypes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PrimaryCancerType"
+                }
+              }
+            }
+          },
+          "onboardingFailureTimestamp": {
+            "type": "string",
+            "description": "Date and time patient onboarding was completed"
+          }
+        },
+        "required": [
+          "id",
+          "firstName",
+          "lastName",
+          "birthDate",
+          "phone"
+        ]
+      },
+      "PatientRecord": {
+        "type": "object",
+        "properties": {
+          "fhirId": {
+            "type": "string",
+            "description": "Patient FHIR ID from EHR"
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "Patient tenant ID from EHR"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "Patient last name from EHR"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Patient last name from EHR"
+          },
+          "birthdate": {
+            "type": "string",
+            "description": "Patient dob from EHR"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Patient phone number from EHR"
+          },
+          "sex": {
+            "type": "string",
+            "description": "Patient sex from EHR"
+          }
+        }
+      },
+      "Provider": {
+        "type": "object",
+        "properties": {
+          "fhirId": {
+            "type": "string",
+            "description": "Provider FHIR ID from EHR"
+          },
+          "chokutoId": {
+            "type": "number",
+            "description": "Provider Chokuto ID"
+          },
+          "tenant": {
+            "type": "string",
+            "description": "Ronin tenant tied to provider"
+          },
+          "name": {
+            "type": "string",
+            "description": "Provider name"
+          }
+        }
+      },
+      "Department": {
+        "type": "object",
+        "properties": {
+          "chokutoId": {
+            "type": "number",
+            "description": "Department Chokuto ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Department name"
+          },
+          "tenant": {
+            "type": "string",
+            "description": "Ronin tenant tied to department"
+          }
+        }
+      },
+      "PrimaryCancerType": {
+        "type": "object",
+        "properties": {
+          "chokutoId": {
+            "type": "number",
+            "description": "PCT Chokuto ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "PCT name"
+          },
+          "tenant": {
+            "type": "string",
+            "description": "Ronin tenant tied to PCT"
+          }
+        }
+      },
       "Error": {
         "type": "object",
         "properties": {
@@ -832,7 +1159,7 @@
         "value": {
           "data": {
             "id": "ronin-PatientFHIRID10",
-            "tenantId": "1xrekpx5",
+            "tenantId": "ronin",
             "firstName": "Ricky",
             "lastName": "Bobby",
             "birthDate": "1974-08-12",
@@ -850,7 +1177,7 @@
         "value": {
           "data": {
             "id": "ronin-PatientFHIRID10",
-            "tenantId": "1xrekpx5",
+            "tenantId": "ronin",
             "firstName": "Ricky",
             "lastName": "Bobby",
             "birthDate": "1974-08-12",
@@ -886,7 +1213,7 @@
         "value": {
           "data": {
             "id": "ronin-PatientFHIRID10",
-            "tenantId": "1xrekpx5",
+            "tenantId": "ronin",
             "firstName": "Ricky",
             "lastName": "Bobby",
             "birthDate": "1974-08-12",
@@ -913,7 +1240,7 @@
         "value": {
           "data": {
             "id": "ronin-PatientFHIRID10",
-            "tenantId": "1xrekpx5",
+            "tenantId": "ronin",
             "firstName": "Ricky",
             "lastName": "Bobby",
             "birthDate": "1974-08-12",
@@ -922,6 +1249,46 @@
             "timezone": "America/Chicago",
             "proEnabled": false,
             "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
+          }
+        }
+      },
+      "FetchPartialPatientsResponse": {
+        "summary": "Successful fetch",
+        "value": {
+          "data": {
+            "id": "2fdk93nc-38ds9-3d9d-2j3j-0238dc120932",
+            "tenantId": "ronin",
+            "firstName": "Ricky",
+            "lastName": "Bobby",
+            "birthDate": "1974-08-12",
+            "phone": "5552239349",
+            "onboardingFailureReason": "Multiple patients found",
+            "onboardingFailureDetails": {
+              "patientRecords": [
+                {
+                  "fhirId": "PatientFHIRID1",
+                  "tenantId": "ronin",
+                  "firstName": "Ricky",
+                  "lastName": "Bobby",
+                  "birthdate": "1974-08-12",
+                  "phone": "5552239349",
+                  "sex": "male"
+                },
+                {
+                  "fhirId": "PatientFHIRID2",
+                  "tenantId": "notRonin",
+                  "firstName": "Ricky",
+                  "lastName": "Bobby",
+                  "birthdate": "1974-08-12",
+                  "phone": "5552239349",
+                  "sex": "female"
+                }
+              ],
+              "providers": [],
+              "departments": [],
+              "primaryCancerTypes": []
+            },
+            "onboardingFailureTimestamp": "2023-12-01T08:34:73.13Z"
           }
         }
       },
