@@ -11,7 +11,7 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.2"
+    "version": "1.0.3"
   },
   "externalDocs": {
     "description": "Find out more about Swagger",
@@ -968,7 +968,20 @@
           },
           "onboardingFailureReason": {
             "type": "string",
-            "description": "High level description of why onboarding failed"
+            "description": "High level description of why onboarding failed",
+            "enum": [
+              "MULTIPLE_PATIENTS_FOUND",
+              "NO_PATIENTS_FOUND",
+              "NO_APPOINTMENTS_FOUND",
+              "NO_PROVIDER_FOUND",
+              "UNKNOWN_PROVIDER",
+              "NO_DEPARTMENTS_FOUND",
+              "UNKNOWN_DEPARTMENT",
+              "NO_PRIMARY_CANCER_TYPE_FOUND",
+              "UNKNOWN_PRIMARY_CANCER_TYPE",
+              "CT_CANNOT_FETCH_CONTACTS",
+              "CT_NO_CONSENT_FOR_TRIAL"
+            ]
           },
           "onboardingFailureDetails": {
             "type": "object",
@@ -1262,7 +1275,7 @@
             "lastName": "Bobby",
             "birthDate": "1974-08-12",
             "phone": "5552239349",
-            "onboardingFailureReason": "Multiple patients found",
+            "onboardingFailureReason": "MULTIPLE_PATIENTS_FOUND",
             "onboardingFailureDetails": {
               "patientRecords": [
                 {
