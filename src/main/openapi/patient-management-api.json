@@ -889,16 +889,16 @@
             "type": "string",
             "description": "Date and time patient onboarding was completed"
           },
-          "communicationPreferencesDetails": {
+          "notificationPreferencesDetails": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CommunicationPreferenceDetail"
+              "$ref": "#/components/schemas/NotificationPreferenceDetail"
             }
           },
-          "purposesForCommunications" : {
+          "purposesForNotifications" : {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/PurposeToCommunicationPreferenceMapping"
+              "$ref": "#/components/schemas/PurposeToNotificationPreferenceMapping"
             }
           }
         },
@@ -912,7 +912,7 @@
           "proEnabled"
         ]
       },
-      "CommunicationPreferenceDetail": {
+      "NotificationPreferenceDetail": {
         "type": "object",
         "properties": {
             "id": {
@@ -921,19 +921,19 @@
             },
           "sendHour": {
             "type": "integer",
-            "description": "Hour of day to send communication (0-23, in user's time zone)"
+            "description": "Hour of day to send notification (0-23, in user's time zone)"
           },
           "sendMinute": {
             "type": "integer",
-            "description": "Minute of hour to send communication"
+            "description": "Minute of hour to send notification"
           },
-          "communicationMedium": {
+          "notificationMedium": {
             "type": "string",
             "description": "The medium via which the notification should be sent/communicated",
             "enum": [
-              "Email",
+              "EMAIL",
               "SMS",
-              "PushNotification"
+              "PUSH_NOTIFICATION"
             ]
           },
           "DestinationIdentifier": {
@@ -942,16 +942,16 @@
           }
         }
       },
-      "PurposeToCommunicationPreferenceMapping": {
+      "PurposeToNotificationPreferenceMapping": {
         "type": "object",
         "properties": {
           "purpose": {
             "type": "string",
-            "description": "Purpose for which the associated communication details should be used"
+            "description": "Purpose for which the associated notification details should be used"
           },
-          "communicationPreferenceDetailId": {
+          "notificationPreferenceDetailId": {
             "type": "string",
-            "description": "UUID for the communication preference that should be used for the associated purpose (should always be in the patient's communication preferences)."
+            "description": "UUID for the notification preference that should be used for the associated purpose (should always be in the patient's notification preferences)."
           }
         }
       },
@@ -1237,37 +1237,37 @@
             "proEnabled": true,
             "invitedTimestamp": "2023-11-28T04:23:43.10Z",
             "onboardedTimestamp": "2023-12-01T08:34:73.13Z",
-            "communicationPreferencesDetails": [
+            "notificationPreferencesDetails": [
               {
-                "communicationPreference": {
+                "notificationPreference": {
                   "id": "81c92e14-95f6-11ee-b9d1-02423a120002",
                   "sendHour": 16,
                   "sendMinute": 30,
-                  "communicationMedium": "SMS",
+                  "notificationMedium": "SMS",
                   "destinationIdentifier": "+12348675309"
                 }
               },
               {
-                "communicationPreference": {
+                "notificationPreference": {
                   "id": "81c92e14-32c6-11ee-b9d1-76819a120003",
                   "sendHour": 9,
                   "sendMinute": 0,
-                  "communicationMedium": "Email",
+                  "notificationMedium": "Email",
                   "destinationIdentifier": "BigHairyAmericanWinningMachine@wonder.bread"
                 }
               }
             ],
-            "purposesForCommunications": [
+            "purposesForNotifications": [
               {
-                  "purposeToCommunicationPreferenceMapping": {
+                  "purposeToNotificationPreferenceMapping": {
                     "purpose": "default",
-                    "communicationPreferenceDetailId": "81c92e14-32c6-11ee-b9d1-76819a120003"
+                    "notificationPreferenceDetailId": "81c92e14-32c6-11ee-b9d1-76819a120003"
                   }
               }
             ]
           }
         }
-      },,
+      },
       "UpdatePatientResponse": {
         "summary": "Successful update",
         "value": {
@@ -1283,31 +1283,31 @@
             "proEnabled": true,
             "invitedTimestamp": "2023-11-28T04:23:43.10Z",
             "onboardedTimestamp": "2023-12-01T08:34:73.13Z",
-            "communicationPreferencesDetails": [
+            "notificationPreferencesDetails": [
               {
-                "communicationPreference": {
+                "notificationPreference": {
                   "id": "81c92e14-95f6-11ee-b9d1-02423a120002",
                   "sendHour": 16,
                   "sendMinute": 30,
-                  "communicationMedium": "SMS",
+                  "notificationMedium": "SMS",
                   "destinationIdentifier": "+12348675309"
                 }
               },
               {
-                "communicationPreference": {
+                "notificationPreference": {
                   "id": "81c92e14-32c6-11ee-b9d1-76819a120003",
                   "sendHour": 9,
                   "sendMinute": 0,
-                  "communicationMedium": "Email",
+                  "notificationMedium": "Email",
                   "destinationIdentifier": "BigHairyAmericanWinningMachine@wonder.bread"
                 }
               }
             ],
-            "purposesForCommunications": [
+            "purposesForNotifications": [
               {
-                "purposeToCommunicationPreferenceMapping": {
+                "purposeToNotificationPreferenceMapping": {
                   "purpose": "default",
-                  "communicationPreferenceDetailId": "81c92e14-32c6-11ee-b9d1-76819a120003"
+                  "notificationPreferenceDetailId": "81c92e14-32c6-11ee-b9d1-76819a120003"
                 }
               }
             ]
