@@ -1,6 +1,6 @@
-# Template Project for REST Contracts
+# Patient Management Service
 
-This repo contains an example of a REST contract repository, to be used as a template repository in GitHub.
+This repo contains the REST contract(s) for interacting with the Patient Management Service.
 
 # Tools
 
@@ -18,14 +18,8 @@ The project looks like this:
 ├── build.gradle.kts                           Gradle build script
 ├── settings.gradle.kts                        Gradle build settings script
 └── src/main/openapi
-    └── <project-name>.json
+    └── patient-management-api.json
 ```
-
-Change the `rootProject.name` value in [settings.gradle.kts](settings.gradle.kts) to reflect what you want your deployed artifact ID to be.
-
-Replace [ronin-contract-rest-template.json](src/main/openapi/ronin-contract-rest-template.json) with your OpenAPI spec.  You may break up using references to other local files so long as they are
-contained inside the `src/main/openapi` directory, but you should put them in sub-folders (e.g. `src/main/openapi/schemas/<schema-name>.json`).  Ignore the `info/version` value of your spec, as it
-will be replaced during the build process.
 
 The plugin outputs five artifacts:
 - a tar.gz file that contains the compiled schemas
@@ -36,7 +30,7 @@ The plugin outputs five artifacts:
 
 ### Dependencies
 
-If your contract depends on _other_ contracts, you can reference them as project dependencies.  Make entries in your build.gradle.kts file like this:
+If you need to add a dependency within this contract to _other_ contracts, you can reference them as project dependencies.  Make entries in your build.gradle.kts file like this:
 
 ```kotlin
 dependencies {
@@ -55,17 +49,17 @@ In general, run:
 
 Available commands are mostly general gradle commands.  Important ones are:
 
-`check`: Verifies the contract using spectral tooling, making sure it's a valid contract.
+`gradle check`: Verifies the contract using spectral tooling, making sure it's a valid contract.
 
-`downloadApiDependencies`: downloads any API dependencies as specified in the `Dependencies` section above.
+`gradle downloadApiDependencies`: downloads any API dependencies as specified in the `Dependencies` section above.
 
-`build`: Runs `check`, generates schema documentation, and generates simple combined schema files.
+`gradle build`: Runs `check`, generates schema documentation, and generates simple combined schema files.
 
-`clean`: removes all generated files
+`gradle clean`: removes all generated files
 
-`assemble`: Assembles the schema into deployable archives.
+`gradle assemble`: Assembles the schema into deployable archives.
 
-`publishToMavenLocal`: publishes all outputs to the local maven repo (e.g. `$HOME/.m2/repository`).  If you are using the docker image, it will try and
+`gradle publishToMavenLocal`: publishes all outputs to the local maven repo (e.g. `$HOME/.m2/repository`).  If you are using the docker image, it will try and
 copy files in and out of the host's repository directory so they can be used for builds later on the host.
 
-`publish`: publishes all outputs to the remote Ronin maven repository.
+`gradle publish`: publishes all outputs to the remote Ronin maven repository.

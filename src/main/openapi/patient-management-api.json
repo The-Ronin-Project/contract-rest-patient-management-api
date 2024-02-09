@@ -25,7 +25,7 @@
   "tags": [
     {
       "name": "Patient",
-      "description": "Endpoints used by the patient apps"
+      "description": "Endpoints used by the patient apps and related supporting services"
     },
     {
       "name": "Admin",
@@ -39,7 +39,7 @@
           "Patient"
         ],
         "summary": "Fetch Patient",
-        "description": "Fetch a patient by id",
+        "description": "Fetch a patient by ID",
         "operationId": "fetchPatient",
         "security": [
           {
@@ -54,7 +54,7 @@
               "type": "string"
             },
             "required": true,
-            "description": "The ID of the tenant for the patient",
+            "description": "The ID of the tenant used as context for the patient search",
             "example": "1xrekpx5"
           },
           {
@@ -64,7 +64,7 @@
               "type": "string"
             },
             "required": true,
-            "description": "The UDP ID of the current patient",
+            "description": "The UDP ID of the patient that should be returned",
             "example": "ronin-PatientFHIRID10"
           }
         ],
@@ -522,7 +522,7 @@
         "tags": [
           "Patient"
         ],
-        "summary": "Onboard Patient",
+        "summary": "Onboard Patient (legacy)",
         "description": "Onboard a patient with user inputs",
         "operationId": "onboardLegacyPatient",
         "security": [
@@ -847,7 +847,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "description": "Patient UDP id used across services"
+            "description": "Patient UDP ID used across services"
           },
           "tenantId": {
             "type": "string",
