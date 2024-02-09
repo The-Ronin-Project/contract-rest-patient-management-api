@@ -1236,10 +1236,38 @@
             "timezone": "America/Chicago",
             "proEnabled": true,
             "invitedTimestamp": "2023-11-28T04:23:43.10Z",
-            "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
+            "onboardedTimestamp": "2023-12-01T08:34:73.13Z",
+            "communicationPreferencesDetails": [
+              {
+                "communicationPreference": {
+                  "id": "81c92e14-95f6-11ee-b9d1-02423a120002",
+                  "sendHour": 16,
+                  "sendMinute": 30,
+                  "communicationMedium": "SMS",
+                  "destinationIdentifier": "+12348675309"
+                }
+              },
+              {
+                "communicationPreference": {
+                  "id": "81c92e14-32c6-11ee-b9d1-76819a120003",
+                  "sendHour": 9,
+                  "sendMinute": 0,
+                  "communicationMedium": "Email",
+                  "destinationIdentifier": "BigHairyAmericanWinningMachine@wonder.bread"
+                }
+              }
+            ],
+            "purposesForCommunications": [
+              {
+                  "purposeToCommunicationPreferenceMapping": {
+                    "purpose": "default",
+                    "communicationPreferenceDetailId": "81c92e14-32c6-11ee-b9d1-76819a120003"
+                  }
+              }
+            ]
           }
         }
-      },
+      },,
       "UpdatePatientResponse": {
         "summary": "Successful update",
         "value": {
@@ -1254,7 +1282,35 @@
             "timezone": "America/Chicago",
             "proEnabled": true,
             "invitedTimestamp": "2023-11-28T04:23:43.10Z",
-            "onboardedTimestamp": "2023-12-01T08:34:73.13Z"
+            "onboardedTimestamp": "2023-12-01T08:34:73.13Z",
+            "communicationPreferencesDetails": [
+              {
+                "communicationPreference": {
+                  "id": "81c92e14-95f6-11ee-b9d1-02423a120002",
+                  "sendHour": 16,
+                  "sendMinute": 30,
+                  "communicationMedium": "SMS",
+                  "destinationIdentifier": "+12348675309"
+                }
+              },
+              {
+                "communicationPreference": {
+                  "id": "81c92e14-32c6-11ee-b9d1-76819a120003",
+                  "sendHour": 9,
+                  "sendMinute": 0,
+                  "communicationMedium": "Email",
+                  "destinationIdentifier": "BigHairyAmericanWinningMachine@wonder.bread"
+                }
+              }
+            ],
+            "purposesForCommunications": [
+              {
+                "purposeToCommunicationPreferenceMapping": {
+                  "purpose": "default",
+                  "communicationPreferenceDetailId": "81c92e14-32c6-11ee-b9d1-76819a120003"
+                }
+              }
+            ]
           }
         }
       },
