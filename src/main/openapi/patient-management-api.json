@@ -1257,7 +1257,7 @@
                   "id": "81c92e14-32c6-11ee-b9d1-76819a120003",
                   "sendHour": 9,
                   "sendMinute": 0,
-                  "notificationMedium": "Email",
+                  "notificationMedium": "EMAIL",
                   "destinationIdentifier": "BigHairyAmericanWinningMachine@wonder.bread"
                 }
               }
@@ -1303,7 +1303,7 @@
                   "id": "81c92e14-32c6-11ee-b9d1-76819a120003",
                   "sendHour": 9,
                   "sendMinute": 0,
-                  "notificationMedium": "Email",
+                  "notificationMedium": "EMAIL",
                   "destinationIdentifier": "BigHairyAmericanWinningMachine@wonder.bread"
                 }
               }
