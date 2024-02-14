@@ -936,11 +936,16 @@
               "PUSH_NOTIFICATION"
             ]
           },
-          "DestinationIdentifier": {
+          "destinationIdentifier": {
             "type": "string",
             "description": "The identifier of the destination (email address for Email, phone number for SMS, etc.)"
           }
-        }
+        },
+        "required": [
+          "id",
+          "notificationMedium",
+          "destinationIdentifier"
+        ]
       },
       "PurposeToNotificationPreferenceMapping": {
         "type": "object",
