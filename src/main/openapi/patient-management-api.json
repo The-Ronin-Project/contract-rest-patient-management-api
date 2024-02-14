@@ -1244,22 +1244,18 @@
             "onboardedTimestamp": "2023-12-01T08:34:73.13Z",
             "notificationPreferencesDetails": [
               {
-                "notificationPreference": {
-                  "id": "81c92e14-95f6-11ee-b9d1-02423a120002",
-                  "sendHour": 16,
-                  "sendMinute": 30,
-                  "notificationMedium": "SMS",
-                  "destinationIdentifier": "+12348675309"
-                }
+                "id": "81c92e14-95f6-11ee-b9d1-02423a120002",
+                "sendHour": 16,
+                "sendMinute": 30,
+                "notificationMedium": "SMS",
+                "destinationIdentifier": "+12348675309"
               },
               {
-                "notificationPreference": {
-                  "id": "81c92e14-32c6-11ee-b9d1-76819a120003",
-                  "sendHour": 9,
-                  "sendMinute": 0,
-                  "notificationMedium": "EMAIL",
-                  "destinationIdentifier": "BigHairyAmericanWinningMachine@wonder.bread"
-                }
+                "id": "81c92e14-32c6-11ee-b9d1-76819a120003",
+                "sendHour": 9,
+                "sendMinute": 0,
+                "notificationMedium": "EMAIL",
+                "destinationIdentifier": "BigHairyAmericanWinningMachine@wonder.bread"
               }
             ],
             "purposesForNotifications": [
@@ -1290,22 +1286,18 @@
             "onboardedTimestamp": "2023-12-01T08:34:73.13Z",
             "notificationPreferencesDetails": [
               {
-                "notificationPreference": {
-                  "id": "81c92e14-95f6-11ee-b9d1-02423a120002",
-                  "sendHour": 16,
-                  "sendMinute": 30,
-                  "notificationMedium": "SMS",
-                  "destinationIdentifier": "+12348675309"
-                }
+                "id": "81c92e14-95f6-11ee-b9d1-02423a120002",
+                "sendHour": 16,
+                "sendMinute": 30,
+                "notificationMedium": "SMS",
+                "destinationIdentifier": "+12348675309"
               },
               {
-                "notificationPreference": {
-                  "id": "81c92e14-32c6-11ee-b9d1-76819a120003",
-                  "sendHour": 9,
-                  "sendMinute": 0,
-                  "notificationMedium": "EMAIL",
-                  "destinationIdentifier": "BigHairyAmericanWinningMachine@wonder.bread"
-                }
+                "id": "81c92e14-32c6-11ee-b9d1-76819a120003",
+                "sendHour": 9,
+                "sendMinute": 0,
+                "notificationMedium": "EMAIL",
+                "destinationIdentifier": "BigHairyAmericanWinningMachine@wonder.bread"
               }
             ],
             "purposesForNotifications": [
