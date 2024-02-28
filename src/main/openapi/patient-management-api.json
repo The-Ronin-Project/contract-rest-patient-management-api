@@ -11,7 +11,7 @@
       "name": "Apache 2.0",
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.5"
+    "version": "1.0.6"
   },
   "externalDocs": {
     "description": "Find out more about Swagger",
@@ -1037,11 +1037,8 @@
               "NO_PATIENTS_FOUND",
               "NO_APPOINTMENTS_FOUND",
               "NO_PROVIDER_FOUND",
-              "UNKNOWN_PROVIDER",
               "NO_DEPARTMENTS_FOUND",
-              "UNKNOWN_DEPARTMENT",
               "NO_PRIMARY_CANCER_TYPE_FOUND",
-              "UNKNOWN_PRIMARY_CANCER_TYPE",
               "CT_CANNOT_FETCH_CONTACTS",
               "CT_NO_CONSENT_FOR_TRIAL"
             ]
